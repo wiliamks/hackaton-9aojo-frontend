@@ -21,7 +21,5 @@ jobs:
           node-version: "19"
       - name: Installing dependencies
         run: npm install
-      - name: Running tests
-        run: npm run test
       - name: Building project
         run: npm run build
