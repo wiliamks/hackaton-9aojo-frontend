@@ -1,9 +1,12 @@
 # Name of workflow as seen in Github actions tab
-name: dev-build-and-deploy
-# Run workflow only on push to dev branch
+name: dev-build
 on:
   push:
     branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
       - main
 jobs:
   # To build the project
@@ -18,14 +21,7 @@ jobs:
           node-version: "19"
       - name: Installing dependencies
         run: npm install
+      - name: Running tests
+        run: npm run test
       - name: Building project
         run: npm run build
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Deploy to S3 bucket
-        run: aws s3 sync ./build/ s3://hackathonfrontend --delete
