@@ -6,7 +6,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import CardView from "../../Components/CardView";
 import { IMovie } from "../../Interfaces/IMovies";
 import useAPI from "../../Services/APIs/Common/useAPI";
@@ -22,11 +22,11 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const getPersonAPI = useAPI(Movies.getMovies);
 
-  const getData = useCallback(() => {
+  const getData = () => {
     setIsLoading(true);
     getPersonAPI
       .requestPromise(searchText)
-      .then((info: IMovie[]) => {        
+      .then((info: IMovie[]) => {
         console.log(info);
         setMovies(info);
         setIsLoading(false);
@@ -34,17 +34,18 @@ const Home = () => {
       .catch((info: any) => {
         console.log(info);
       });
-  }, [getPersonAPI, searchText]);
+  };
+
+  useEffect(() => {
+    getData()
+  }, []);
 
   const onChangeSearch = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setSearchText(event.target.value);
   };
-  
-  useEffect(() => {
-    getData()
-  }, [getData]);
+
 
   let arrayInfo: JSX.Element[] = [];
   movies.forEach((movie: IMovie) => {
