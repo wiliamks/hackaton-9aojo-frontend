@@ -38,7 +38,7 @@ const Home = () => {
 
   useEffect(() => {
     getData()
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onChangeSearch = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
