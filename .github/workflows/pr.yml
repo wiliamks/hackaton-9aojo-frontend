@@ -1,0 +1,25 @@
+# Name of workflow as seen in Github actions tab
+name: dev-build
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+      - main
+jobs:
+  # To build the project
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out code
+        uses: actions/checkout@v3
+      - name: Installing Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "19"
+      - name: Installing dependencies
+        run: npm install
+      - name: Building project
+        run: npm run build
